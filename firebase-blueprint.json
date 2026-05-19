@@ -1,0 +1,32 @@
+{
+  "entities": {
+    "property": {
+      "title": "Property",
+      "description": "A luxury real estate property or investment project",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Display name of the property" },
+        "type": { "type": "string", "description": "Type of asset (e.g., Edificio Residencial)" },
+        "location": { "type": "string", "description": "Geographical location (e.g., Barcelona)" },
+        "category": { 
+          "type": "string", 
+          "enum": ["edificios", "hoteles", "industrial", "solar", "local", "oficinas", "singulares"],
+          "description": "Category for filtering" 
+        },
+        "image": { "type": "string", "description": "Hero image URL" },
+        "description": { "type": "string", "description": "Full description of the opportunity" },
+        "status": { "type": "string", "enum": ["active", "sold", "reserved"], "description": "Current market status" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "ownerId": { "type": "string", "description": "UID of the user who added it" }
+      },
+      "required": ["title", "type", "location", "category", "image", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/properties/{propertyId}": {
+      "schema": "property",
+      "description": "Exclusive properties and investment opportunities"
+    }
+  }
+}
