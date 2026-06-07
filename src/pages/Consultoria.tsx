@@ -30,19 +30,6 @@ const sections = [
       { t: 'Máxima Rentabilidad', d: 'Especialistas en aumentar las rentas de activos arrendados.' },
       { t: 'Seguimiento Continuo', d: 'Información constante sobre el valor y conveniencia de sus activos.' }
     ]
-  },
-  {
-    id: 'fincas',
-    title: 'Admin. Fincas',
-    icon: Users,
-    subtitle: 'Legado y Confianza desde 1932',
-    description: 'Trabajamos directamente con MASIFILL PATRIMONIA, referentes en Barcelona por su honestidad.',
-    features: [
-      { t: 'Gestión de comunidades', d: 'Trato personalizado y eficiente en la administración diaria.' },
-      { t: 'Gestión de alquileres', d: 'Seguridad y rigor en la relación con arrendatarios.' },
-      { t: 'Contratación de seguros', d: 'Protección integral de sus activos inmobiliarios.' },
-      { t: 'Compra-Venta', d: 'Un ecosistema completo para el ciclo de vida del inmueble.' }
-    ]
   }
 ];
 
@@ -55,14 +42,30 @@ export const Consultoria = () => {
     <div className="pt-32 pb-24 bg-bg-light min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header Section */}
-        <div className="mb-20">
-          <span className="text-brand-dark uppercase tracking-[0.3em] text-xs font-bold mb-4 block underline underline-offset-8">Servicios Especializados</span>
-          <h1 className="text-5xl md:text-7xl font-serif text-text-dark italic leading-none">
-            Consultoría <span className="not-italic text-brand-dark">& Estrategia</span>
-          </h1>
-          <p className="mt-8 text-text-muted max-w-2xl text-lg font-light leading-relaxed">
-            Nuestro enfoque combina el análisis técnico avanzado con una visión patrimonial a largo plazo para maximizar el valor de cada activo.
-          </p>
+        <div className="mb-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-7">
+            <span className="text-brand-dark uppercase tracking-[0.3em] text-xs font-bold mb-4 block underline underline-offset-8">Servicios Especializados</span>
+            <h1 className="text-5xl md:text-7xl font-serif text-text-dark italic leading-none">
+              Consultoría <span className="not-italic text-brand-dark">& Estrategia</span>
+            </h1>
+            <p className="mt-8 text-text-muted text-lg font-light leading-relaxed max-w-xl">
+              Nuestro enfoque combina el análisis técnico avanzado con una visión patrimonial a largo plazo para maximizar el valor de cada activo.
+            </p>
+          </div>
+          <div className="lg:col-span-5 h-[240px] bg-bg-dark border border-line-light relative overflow-hidden shadow-lg rounded-sm">
+             {/* Highly professional analytical asset management imagery */}
+             <img 
+               src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=1200" 
+               alt="Análisis de Inversión" 
+               className="w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700"
+               referrerPolicy="no-referrer"
+             />
+             <div className="absolute inset-0 bg-gradient-to-t from-bg-dark/90 via-transparent to-transparent"></div>
+             <div className="absolute bottom-6 left-6 right-6">
+                <span className="text-brand text-[9px] uppercase tracking-[0.2em] font-bold block mb-1">Análisis Patrimonial</span>
+                <p className="text-white text-xs font-serif italic">Métodos rigurosos de inversión guiados por la máxima discreción.</p>
+             </div>
+          </div>
         </div>
 
         {/* Interactive Tabs */}
@@ -74,9 +77,9 @@ export const Consultoria = () => {
                 key={s.id}
                 onClick={() => setActiveTab(s.id)}
                 className={cn(
-                  "flex items-center gap-6 p-8 rounded-sm border transition-all duration-500 text-left group",
+                  "flex items-center gap-6 p-6 sm:p-8 rounded-sm border transition-all duration-500 text-left group",
                   activeTab === s.id 
-                    ? "bg-slate-900 border-slate-900 shadow-2xl translate-x-4" 
+                    ? "bg-slate-900 border-slate-900 shadow-2xl lg:translate-x-4" 
                     : "bg-white border-line-light hover:border-brand/40"
                 )}
               >
@@ -113,7 +116,7 @@ export const Consultoria = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.4 }}
-                className="bg-white border border-line-light p-8 md:p-16 shadow-sm min-h-[600px] flex flex-col"
+                className="bg-white border border-line-light p-6 sm:p-10 md:p-16 shadow-sm min-h-[600px] flex flex-col"
               >
                 <div className="flex items-center gap-4 mb-8">
                    <div className="w-12 h-[1px] bg-brand"></div>
@@ -144,19 +147,6 @@ export const Consultoria = () => {
                     </motion.div>
                   ))}
                 </div>
-
-                {activeTab === 'fincas' && (
-                  <div className="mt-12 pt-8 border-t border-line-light flex flex-col md:flex-row items-center justify-between gap-8">
-                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 bg-slate-900 flex items-center justify-center text-white font-serif font-bold text-sm text-center p-2 rounded-sm italic">MASI<br/>FILL</div>
-                        <div>
-                          <p className="text-xs font-bold uppercase tracking-widest text-text-dark">Colaborador Estratégico</p>
-                          <p className="text-text-muted text-[10px]">Estandar de honestidad en Barcelona desde 1932</p>
-                        </div>
-                     </div>
-                     <button className="bg-slate-900 text-white px-8 py-3 text-[10px] uppercase tracking-widest font-bold hover:bg-brand hover:text-black transition-all">Ver Web Masifill</button>
-                  </div>
-                )}
               </motion.div>
             </AnimatePresence>
           </div>

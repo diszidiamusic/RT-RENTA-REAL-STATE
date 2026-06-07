@@ -14,8 +14,32 @@
           "description": "Category for filtering" 
         },
         "image": { "type": "string", "description": "Hero image URL" },
-        "description": { "type": "string", "description": "Full description of the opportunity" },
-        "status": { "type": "string", "enum": ["active", "sold", "reserved"], "description": "Current market status" },
+        "assetId": { "type": "string", "description": "Code identification of the asset" },
+        "situation": { "type": "string", "description": "Location description" },
+        "assetTypeDetail": { "type": "string", "description": "Asset type details and uses" },
+        "surface": {
+          "type": "object",
+          "properties": {
+            "solar": { "type": "string" },
+            "built": { "type": "string" },
+            "year": { "type": "string" }
+          }
+        },
+        "observations": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string" },
+            "annualExpenses": { "type": "string" },
+            "annualRent": { "type": "string" }
+          }
+        },
+        "salePrice": { "type": "string", "description": "Sale price representation" },
+        "repercussion": { "type": "string", "description": "Price per sqm" },
+        "yield": { "type": "string", "description": "Rentability percentage description" },
+        "fees": { "type": "string", "description": "Real estate commissions info" },
+        "mapImage": { "type": "string", "description": "Google Map view placeholder or local URL" },
+        "pdfUrl": { "type": "string", "description": "Attached portfolio or dossier URL/Base64" },
+        "isActive": { "type": "boolean", "description": "Active state to toggle property visibility" },
         "createdAt": { "type": "string", "format": "date-time" },
         "updatedAt": { "type": "string", "format": "date-time" },
         "ownerId": { "type": "string", "description": "UID of the user who added it" }

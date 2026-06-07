@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MapPin, ArrowRight, LayoutGrid, Building, Hotel, Factory, LandPlot } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { cn, openPdf } from '../lib/utils';
+import customLogo from '../img/ChatGPT Image 7 de juny del 2026, 22_29_31.png';
 
 export interface Property {
   id: string;
@@ -29,6 +30,8 @@ export interface Property {
   yield?: string;
   fees?: string;
   mapImage?: string;
+  pdfUrl?: string;
+  isActive?: boolean;
 }
 
 interface PropertyListProps {
@@ -40,75 +43,82 @@ const PropertyDetailModal: React.FC<{ property: Property; onClose: () => void }>
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
+    className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 md:p-8"
   >
-    <div className="bg-white w-full max-w-6xl max-h-[90vh] overflow-y-auto rounded-sm relative shadow-2xl">
+    <div className="bg-white w-full max-w-6xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto rounded-sm relative shadow-2xl">
       <button 
         onClick={onClose}
-        className="absolute top-6 right-6 z-10 p-2 bg-slate-900 text-white hover:bg-brand hover:text-black transition-colors rounded-sm"
+        className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 p-2 bg-slate-900 text-white hover:bg-brand hover:text-black transition-colors rounded-sm"
       >
-        <ArrowRight className="rotate-180" size={24} />
+        <ArrowRight className="rotate-180" size={20} />
       </button>
 
-      <div className="p-8 md:p-16">
+      <div className="p-5 sm:p-10 md:p-16">
         {/* Header from image */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12 border-b border-slate-100 pb-8">
-          <div>
-            <span className="text-brand-dark font-bold text-xl uppercase tracking-widest mb-2 block">{property.assetId || 'ID PENDIENTE'}</span>
-            <h2 className="text-3xl md:text-5xl font-serif text-slate-800 italic leading-tight">{property.title}</h2>
+          <div className="pr-12 md:pr-0">
+            <span className="text-brand-dark font-bold text-lg sm:text-xl uppercase tracking-widest mb-2 block">{property.assetId || 'ID PENDIENTE'}</span>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-serif text-slate-800 italic leading-tight">{property.title}</h2>
           </div>
-          <div className="text-right">
-             <div className="w-24 h-24 bg-slate-100 flex items-center justify-center text-slate-300 mb-2 rounded-sm border border-slate-200">
-                <Building size={48} />
+          <div className="text-left md:text-right flex items-center md:flex-col gap-4 md:gap-2">
+             <div className="w-16 h-16 sm:w-24 sm:h-24 bg-white flex items-center justify-center rounded-sm border border-slate-200 overflow-hidden shadow-sm p-1">
+                <img 
+                  src={customLogo} 
+                  alt="RT Renta Real Estate" 
+                  className="w-full h-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
              </div>
-             <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400">RT Renta Real Estate</p>
+             <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400">RT Renta Real Estate</p>
+             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 sm:gap-16">
           {/* Left Column: Details */}
-          <div className="lg:col-span-7 space-y-12">
+          <div className="lg:col-span-7 space-y-10 sm:space-y-12">
             
             {/* Situación */}
-            <div className="flex gap-8">
-               <div className="w-12 flex justify-center shrink-0">
+            <div className="flex gap-4 sm:gap-8">
+               <div className="w-10 sm:w-12 flex justify-center shrink-0">
                   <MapPin className="text-slate-300" size={24} />
                </div>
                <div className="flex-1">
-                  <h4 className="text-slate-400 uppercase tracking-widest text-xs font-bold mb-3 flex items-center gap-4">
+                  <h4 className="text-slate-400 uppercase tracking-widest text-[#a8a29e] text-[10px] sm:text-xs font-bold mb-3 flex items-center gap-4">
                     Situación <div className="h-[1px] bg-slate-100 flex-1"></div>
                   </h4>
-                  <p className="text-slate-600 leading-relaxed font-light text-lg">
+                  <p className="text-slate-600 leading-relaxed font-light text-base sm:text-lg">
                     {property.situation || 'Información pendiente de actualización.'}
                   </p>
                </div>
             </div>
 
             {/* Tipo Activo */}
-            <div className="flex gap-8">
-               <div className="w-12 flex justify-center shrink-0">
+            <div className="flex gap-4 sm:gap-8">
+               <div className="w-10 sm:w-12 flex justify-center shrink-0">
                   <Building className="text-slate-300" size={24} />
                </div>
                <div className="flex-1">
-                  <h4 className="text-slate-400 uppercase tracking-widest text-xs font-bold mb-3 flex items-center gap-4">
+                  <h4 className="text-slate-400 uppercase tracking-widest text-[#a8a29e] text-[10px] sm:text-xs font-bold mb-3 flex items-center gap-4">
                     Tipo Activo <div className="h-[1px] bg-slate-100 flex-1"></div>
                   </h4>
-                  <p className="text-slate-600 leading-relaxed font-light whitespace-pre-line">
+                  <p className="text-slate-600 leading-relaxed font-light text-base sm:text-lg whitespace-pre-line">
                     {property.assetTypeDetail || property.type}
                   </p>
                </div>
             </div>
 
             {/* Superficie */}
-            <div className="flex gap-8">
-               <div className="w-12 flex justify-center shrink-0">
+            <div className="flex gap-4 sm:gap-8">
+               <div className="w-10 sm:w-12 flex justify-center shrink-0">
                   <LayoutGrid className="text-slate-300" size={24} />
                </div>
                <div className="flex-1">
-                  <h4 className="text-slate-400 uppercase tracking-widest text-xs font-bold mb-3 flex items-center gap-4">
+                  <h4 className="text-slate-400 uppercase tracking-widest text-[#a8a29e] text-[10px] sm:text-xs font-bold mb-3 flex items-center gap-4">
                     Superficie <div className="h-[1px] bg-slate-100 flex-1"></div>
                   </h4>
-                  <div className="space-y-1 text-slate-600 font-light text-lg">
+                  <div className="space-y-1 text-slate-600 font-light text-base sm:text-lg">
                     {property.surface?.solar && <p>Superficie solar: {property.surface.solar}</p>}
                     {property.surface?.built && <p>Superficie construida: {property.surface.built}</p>}
                     {property.surface?.year && <p>Año de construcción: {property.surface.year}</p>}
@@ -118,15 +128,15 @@ const PropertyDetailModal: React.FC<{ property: Property; onClose: () => void }>
             </div>
 
             {/* Observaciones */}
-            <div className="flex gap-8">
-               <div className="w-12 flex justify-center shrink-0">
+            <div className="flex gap-4 sm:gap-8">
+               <div className="w-10 sm:w-12 flex justify-center shrink-0">
                   <div className="w-6 h-6 border-2 border-slate-200 rounded-sm"></div>
                </div>
                <div className="flex-1">
-                  <h4 className="text-slate-400 uppercase tracking-widest text-xs font-bold mb-3 flex items-center gap-4">
+                  <h4 className="text-slate-400 uppercase tracking-widest text-[#a8a29e] text-[10px] sm:text-xs font-bold mb-3 flex items-center gap-4">
                     Observaciones <div className="h-[1px] bg-slate-100 flex-1"></div>
                   </h4>
-                  <div className="space-y-1 text-slate-600 font-light text-lg">
+                  <div className="space-y-1 text-slate-600 font-light text-base sm:text-lg">
                     {property.observations?.status && <p>{property.observations.status}</p>}
                     {property.observations?.annualExpenses && <p>Gastos anuales: {property.observations.annualExpenses}</p>}
                     {property.observations?.annualRent && <p>Renta Anual Actual: {property.observations.annualRent}</p>}
@@ -138,39 +148,39 @@ const PropertyDetailModal: React.FC<{ property: Property; onClose: () => void }>
             {/* Financials (Price, Yield, Fees) */}
             <div className="pt-8 space-y-8 border-t border-slate-100">
                {/* Precio */}
-               <div className="flex gap-8">
-                  <div className="w-12 flex justify-center shrink-0">
+               <div className="flex gap-4 sm:gap-8">
+                  <div className="w-10 sm:w-12 flex justify-center shrink-0">
                      <span className="text-slate-300 text-2xl">€</span>
                   </div>
-                  <div className="flex-1 grid grid-cols-2 gap-8">
+                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                      <div>
                         <h4 className="text-slate-400 uppercase tracking-widest text-[10px] font-bold mb-2">Precio de venta</h4>
-                        <p className="text-2xl font-bold text-slate-800">{property.salePrice || 'Consultar'}</p>
+                        <p className="text-xl sm:text-2xl font-bold text-slate-800">{property.salePrice || 'Consultar'}</p>
                      </div>
                      <div>
                         <h4 className="text-slate-400 uppercase tracking-widest text-[10px] font-bold mb-2">Repercusión</h4>
-                        <p className="text-xl font-light text-slate-600">{property.repercussion || '-'}</p>
+                        <p className="text-lg sm:text-xl font-light text-slate-600">{property.repercussion || '-'}</p>
                      </div>
                   </div>
                </div>
 
                {/* Rentabilidad */}
-               <div className="flex gap-8">
-                  <div className="w-12 shrink-0"></div>
+               <div className="flex gap-4 sm:gap-8">
+                  <div className="w-10 sm:w-12 shrink-0"></div>
                   <div className="flex-1">
                      <h4 className="text-slate-400 uppercase tracking-widest text-[10px] font-bold mb-2">Rentabilidad</h4>
-                     <p className="text-xl font-light text-slate-600">{property.yield || 'A estudio'}</p>
+                     <p className="text-lg sm:text-xl font-light text-slate-600">{property.yield || 'A estudio'}</p>
                   </div>
                </div>
 
                {/* Honorarios */}
-               <div className="flex gap-8">
-                  <div className="w-12 shrink-0 flex justify-center">
+               <div className="flex gap-4 sm:gap-8">
+                  <div className="w-10 sm:w-12 shrink-0 flex justify-center">
                      <LandPlot className="text-slate-300" size={24} />
                   </div>
                   <div className="flex-1">
                      <h4 className="text-slate-400 uppercase tracking-widest text-[10px] font-bold mb-2">Honorarios</h4>
-                     <p className="text-xl font-light text-slate-600">{property.fees || '3% (No incluidos en el precio)'}</p>
+                     <p className="text-lg sm:text-xl font-light text-slate-600">{property.fees || '3% (No incluidos en el precio)'}</p>
                   </div>
                </div>
             </div>
@@ -200,9 +210,18 @@ const PropertyDetailModal: React.FC<{ property: Property; onClose: () => void }>
                 Documento estrictamente confidencial, exclusivo para su destinatario. Propiedad de RT Renta Real Estate.
              </div>
              
-             <button className="w-full py-5 bg-brand text-black uppercase tracking-[0.2em] font-bold text-xs hover:bg-slate-900 hover:text-white transition-all shadow-xl">
-                Solicitar Dossier Completo
-             </button>
+             {property.pdfUrl ? (
+               <button 
+                 onClick={() => openPdf(property.pdfUrl!)}
+                 className="w-full block text-center py-5 bg-black text-brand border border-brand uppercase tracking-[0.2em] font-bold text-xs hover:bg-brand hover:text-black transition-all shadow-xl font-sans cursor-pointer"
+               >
+                 Abrir portfolio
+               </button>
+             ) : (
+               <button className="w-full py-5 bg-brand text-black uppercase tracking-[0.2em] font-bold text-xs hover:bg-slate-900 hover:text-white transition-all shadow-xl">
+                  Solicitar Dossier Completo
+               </button>
+             )}
           </div>
         </div>
       </div>
@@ -216,7 +235,7 @@ export const PropertyCard: React.FC<{ property: Property; onClick: (p: Property)
     initial={{ opacity: 0, scale: 0.9 }}
     animate={{ opacity: 1, scale: 1 }}
     exit={{ opacity: 0, scale: 0.9 }}
-    whileHover={{ y: -10 }}
+    whileHover={{ y: -5 }}
     onClick={() => onClick(property)}
     className="group relative bg-card-light overflow-hidden shadow-xl transition-all duration-500 border border-line-light rounded-sm cursor-pointer"
   >
@@ -248,8 +267,22 @@ export const PropertyCard: React.FC<{ property: Property; onClick: (p: Property)
       <h3 className="text-2xl font-serif mb-4 leading-tight italic text-text-dark line-clamp-2 min-h-[4rem]">
         {property.title}
       </h3>
-      <div className="flex items-center gap-3 text-[10px] uppercase tracking-widest font-bold text-text-muted border-t border-line-light pt-4 group-hover:text-brand transition-colors">
-        Ver Ficha Técnica <ArrowRight size={14} className="text-brand transition-transform group-hover:translate-x-1" />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-t border-line-light pt-4 mt-2">
+        <div className="flex items-center gap-3 text-[10px] uppercase tracking-widest font-bold text-text-muted group-hover:text-brand transition-colors">
+          Ver Ficha Técnica <ArrowRight size={14} className="text-brand transition-transform group-hover:translate-x-1" />
+        </div>
+        
+        {property.pdfUrl && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              openPdf(property.pdfUrl!);
+            }}
+            className="w-full sm:w-auto px-4 py-2 text-center bg-slate-900 border border-slate-900 text-brand hover:bg-brand hover:text-black hover:border-brand uppercase tracking-widest font-bold text-[9px] transition-colors rounded-sm flex items-center justify-center gap-1.5 cursor-pointer"
+          >
+            Abrir portfolio
+          </button>
+        )}
       </div>
     </div>
   </motion.div>

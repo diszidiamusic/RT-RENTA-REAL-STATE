@@ -38,9 +38,10 @@ export default function App() {
       setIsAuthorized(true);
     }
 
+    // Subscribe to firestore properties
     const unsubscribeProperties = getProperties((props) => {
-      setProperties(props);
       setLoading(false);
+      setProperties(props);
     });
 
     return () => {
@@ -94,7 +95,14 @@ export default function App() {
 
         <AnimatePresence>
           {isLoginOpen && (
-            <LoginModal onClose={() => setIsLoginOpen(false)} />
+            <LoginModal 
+              onClose={() => setIsLoginOpen(false)} 
+              onLoginSuccess={() => {
+                setIsAuthorized(true);
+                setIsLoginOpen(false);
+                setIsAdminOpen(true);
+              }}
+            />
           )}
           {isAdminOpen && isAuthorized && (
             <AdminDashboard properties={properties} onClose={() => setIsAdminOpen(false)} />

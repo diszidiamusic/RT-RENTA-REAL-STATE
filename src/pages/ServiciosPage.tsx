@@ -24,12 +24,15 @@ export const ServiciosPage = () => {
       <section className="py-24 bg-card-dark border-y border-line overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <div>
-            <h2 className="text-4xl font-serif text-white italic mb-6">¿Por qué confiar en <span className="not-italic text-brand">RT Renta?</span></h2>
-            <div className="space-y-6 mt-10">
+            <h2 className="text-4xl font-serif text-white italic mb-6">Metodología de Trabajo <span className="not-italic text-brand font-sans">“Justo a la Medida”</span></h2>
+            <p className="text-text-muted text-sm mb-8 leading-relaxed">
+              Damos respuesta individualizada a cualquier petición de nuestros clientes. Ofrecemos a propietarios e inversores una alternativa sólida y contrastada en la diversificación de sus carteras en el sector inmobiliario.
+            </p>
+            <div className="space-y-6">
               {[
-                { t: "Independencia Total", d: "No dependemos de entidades bancarias ni fondos, solo de los intereses de nuestros clientes." },
-                { t: "Visión Patrimonialista", d: "Entendemos el inmueble como una reserva de valor a largo plazo." },
-                { t: "Ecosistema Directo", d: "Acceso a activos 'Off-Market' gracias a nuestra red de contactos histórica en Barcelona." }
+                { t: "Variables de Gestión Claves", d: "La rentabilidad esperada, el riesgo asumido por cada perfil de inversor y el horizonte temporal como plazo de la inversión determinan cada decisión." },
+                { t: "Búsquedas Selectivas", d: "Realizamos prospecciones a medida y búsquedas exhaustivas bajo requerimientos y especificaciones exclusivos de adquisición." },
+                { t: "Exclusiva Red Off-Market", d: "Gestionamos de forma directa la mayoría de los activos inmobiliarios, bajo acuerdos confidenciales para garantizar máxima discreción." }
               ].map((item, i) => (
                 <div key={i} className="flex gap-4 group">
                   <div className="shrink-0 w-6 h-6 rounded-full border border-brand/40 flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-black transition-colors">
@@ -37,7 +40,7 @@ export const ServiciosPage = () => {
                   </div>
                   <div>
                     <h4 className="text-white font-serif text-lg mb-1">{item.t}</h4>
-                    <p className="text-text-muted text-sm">{item.d}</p>
+                    <p className="text-text-muted text-xs leading-relaxed">{item.d}</p>
                   </div>
                 </div>
               ))}
@@ -52,7 +55,7 @@ export const ServiciosPage = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-dark to-transparent"></div>
                 <div className="absolute bottom-12 left-12 right-12">
-                   <p className="text-2xl font-serif text-white italic mb-4">"La transparencia no es un servicio, es nuestra forma de ser."</p>
+                   <p className="text-2xl font-serif text-white italic mb-4">"Nuestra meta es maximizar la rentabilidad optimizando de forma eficiente cada proceso."</p>
                    <div className="w-12 h-[1px] bg-brand"></div>
                 </div>
              </div>

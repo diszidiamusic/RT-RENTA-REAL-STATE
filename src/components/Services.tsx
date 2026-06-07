@@ -27,11 +27,6 @@ const services = [
     title: 'Gestión de Patrimonio',
     description: 'Estudio y optimización de carteras patrimoniales existentes.',
     icon: Landmark,
-  },
-  {
-    title: 'Administración de Fincas',
-    description: 'Colaboración directa con expertos para una gestión integral y honesta.',
-    icon: Users,
   }
 ];
 

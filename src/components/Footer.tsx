@@ -13,7 +13,7 @@ export const Footer = () => {
               RT
             </div>
             <div className="flex flex-col leading-none">
-              <span className="font-serif text-xl tracking-[0.2em] uppercase font-light">RENTA REAL STATE</span>
+              <span className="font-serif text-lg sm:text-xl tracking-[0.15em] sm:tracking-[0.2em] uppercase font-light truncate">RENTA REAL ESTATE</span>
             </div>
           </div>
           <p className="text-text-muted text-sm leading-relaxed mb-8 max-w-xs">
@@ -59,11 +59,7 @@ export const Footer = () => {
         {/* Contact */}
         <div>
           <h4 className="font-serif text-xl mb-8 text-brand">Contacto</h4>
-          <ul className="space-y-6 text-sm text-text-muted font-sans">
-            <li className="flex items-start gap-4">
-              <MapPin size={20} className="text-brand shrink-0" />
-              <span>Vía Augusta, 118, 08006 Barcelona</span>
-            </li>
+          <ul className="space-y-6 text-sm text-text-muted font-sans font-extralight">
             <li className="flex items-center gap-4">
               <Phone size={20} className="text-brand shrink-0" />
               <span>+34 609 788 835</span>
@@ -76,13 +72,9 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto pt-12 border-t border-line flex flex-col md:flex-row items-center justify-between gap-6 text-[9px] uppercase tracking-[0.2em] text-text-muted font-bold">
+      <div className="max-w-7xl mx-auto pt-12 border-t border-line flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] tracking-[0.1em] text-text-muted font-sans font-light">
         <p>© 2026 RT Renta Real Estate. Todos los derechos reservados.</p>
-        <div className="flex gap-10">
-          <span>Servicio Personalizado: Activo</span>
-          <span>Red de Contactos: Verificada</span>
-        </div>
-        <p>Expertise by RT Renta</p>
+        <p className="italic">Garantía de Rentabilidad, Rigor y Confidencialidad desde 2004</p>
       </div>
     </footer>
   );

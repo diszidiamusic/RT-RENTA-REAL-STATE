@@ -43,11 +43,11 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 bg-brand rounded-sm flex items-center justify-center text-black font-serif font-bold text-xl transition-transform group-hover:scale-110">
+          <div className="w-10 h-10 bg-brand rounded-none flex items-center justify-center text-black font-serif font-extrabold text-xl transition-transform group-hover:scale-105">
             RT
           </div>
-          <div className="flex flex-col leading-none text-white transition-colors">
-            <span className="font-serif text-xl tracking-[0.2em] uppercase font-light">RENTA REAL STATE</span>
+          <div className="flex flex-col leading-none text-white transition-colors max-w-[150px] xs:max-w-none">
+            <span className="font-serif text-[10px] min-[350px]:text-xs sm:text-base md:text-lg tracking-[0.12em] sm:tracking-[0.25em] uppercase font-light truncate">RENTA REAL ESTATE</span>
           </div>
         </Link>
 

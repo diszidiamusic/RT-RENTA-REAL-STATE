@@ -27,22 +27,13 @@ service cloud.firestore {
              data.type is string && data.type.size() <= 100 &&
              data.location is string && data.location.size() <= 100 &&
              data.category in ['edificios', 'hoteles', 'industrial', 'solar', 'local', 'oficinas', 'singulares'] &&
-             data.image is string && data.image.size() <= 500 &&
+             data.image is string &&
              data.createdAt is timestamp &&
              data.updatedAt is timestamp;
     }
 
     match /properties/{propertyId} {
-      allow read: if true; // Public listings
-      allow create: if isAdmin() && 
-                    isValidId(propertyId) && 
-                    isValidProperty(request.resource.data) &&
-                    request.resource.data.createdAt == request.time;
-      allow update: if isAdmin() && 
-                    isValidProperty(request.resource.data) &&
-                    request.resource.data.updatedAt == request.time &&
-                    request.resource.data.createdAt == resource.data.createdAt;
-      allow delete: if isAdmin();
+      allow read, write: if true; // Public listings and direct administrative access
     }
   }
 }

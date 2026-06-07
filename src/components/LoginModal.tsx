@@ -4,9 +4,10 @@ import { X, Lock, User as UserIcon, AlertCircle } from 'lucide-react';
 
 interface LoginModalProps {
   onClose: () => void;
+  onLoginSuccess: () => void;
 }
 
-export const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
+export const LoginModal: React.FC<LoginModalProps> = ({ onClose, onLoginSuccess }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +21,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({ onClose }) => {
     // Hardcoded credentials for simplicity as requested
     if (email === 'admin@rtrenta.com' && password === 'renta2024') {
       sessionStorage.setItem('rt_admin_session', 'active');
-      window.location.reload(); // Refresh to update App state
+      onLoginSuccess();
     } else {
       setError('Usuario o contraseña incorrectos.');
       setLoading(false);

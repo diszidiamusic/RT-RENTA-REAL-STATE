@@ -3,6 +3,7 @@ import {
   addDoc, 
   updateDoc, 
   deleteDoc, 
+  setDoc,
   doc, 
   query, 
   orderBy, 
@@ -48,6 +49,30 @@ function handleFirestoreError(error: unknown, operationType: OperationType, path
   throw new Error(JSON.stringify(errInfo));
 }
 
+function cleanUndefined(obj: any): any {
+  if (obj === undefined) return null;
+  if (obj === null) return null;
+  if (Array.isArray(obj)) {
+    return obj.map(cleanUndefined);
+  }
+  if (typeof obj === 'object') {
+    const proto = Object.getPrototypeOf(obj);
+    if (proto !== null && proto !== Object.prototype) {
+      // Intact for FieldValue, Timestamp, etc.
+      return obj;
+    }
+    const cleaned: any = {};
+    for (const key of Object.keys(obj)) {
+      const val = obj[key];
+      if (val !== undefined) {
+        cleaned[key] = cleanUndefined(val);
+      }
+    }
+    return cleaned;
+  }
+  return obj;
+}
+
 export const getProperties = (callback: (properties: Property[]) => void) => {
   const q = query(collection(db, 'properties'), orderBy('createdAt', 'desc'));
   
@@ -64,12 +89,13 @@ export const getProperties = (callback: (properties: Property[]) => void) => {
 
 export const addProperty = async (property: Omit<Property, 'id'>) => {
   try {
-    await addDoc(collection(db, 'properties'), {
+    const rawPayload = {
       ...property,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
-      ownerId: auth.currentUser?.uid
-    });
+      ownerId: auth.currentUser?.uid || null
+    };
+    await addDoc(collection(db, 'properties'), cleanUndefined(rawPayload));
   } catch (error) {
     handleFirestoreError(error, OperationType.CREATE, 'properties');
   }
@@ -78,10 +104,22 @@ export const addProperty = async (property: Omit<Property, 'id'>) => {
 export const updateProperty = async (id: string, property: Partial<Property>) => {
   try {
     const docRef = doc(db, 'properties', id);
-    await updateDoc(docRef, {
-      ...property,
-      updatedAt: serverTimestamp()
-    });
+    if (id.startsWith('local-')) {
+      const { id: _, ...propertyData } = property as any;
+      const rawPayload = {
+        ...propertyData,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        ownerId: auth.currentUser?.uid || null
+      };
+      await setDoc(docRef, cleanUndefined(rawPayload));
+    } else {
+      const rawPayload = {
+        ...property,
+        updatedAt: serverTimestamp()
+      };
+      await updateDoc(docRef, cleanUndefined(rawPayload));
+    }
   } catch (error) {
     handleFirestoreError(error, OperationType.UPDATE, `properties/${id}`);
   }
@@ -89,7 +127,16 @@ export const updateProperty = async (id: string, property: Partial<Property>) =>
 
 export const removeProperty = async (id: string) => {
   try {
-    await deleteDoc(doc(db, 'properties', id));
+    if (id.startsWith('local-')) {
+      const docRef = doc(db, 'properties', id);
+      await setDoc(docRef, {
+        isDeletedLocal: true,
+        isActive: false,
+        updatedAt: serverTimestamp()
+      });
+    } else {
+      await deleteDoc(doc(db, 'properties', id));
+    }
   } catch (error) {
     handleFirestoreError(error, OperationType.DELETE, `properties/${id}`);
   }
