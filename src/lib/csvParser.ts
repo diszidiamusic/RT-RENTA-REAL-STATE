@@ -1,4 +1,4 @@
-import { Property } from '../components/PropertyList';
+import { Property, getAssetImage } from '../components/PropertyList';
 
 export function parseCSVLine(line: string): string[] {
   const result: string[] = [];
@@ -79,7 +79,13 @@ export function mapCsvRowToProperty(row: string[]): Omit<Property, 'id'> {
     singulares: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&q=80&w=800'
   };
 
-  const image = defaultImages[category] || defaultImages['edificios'];
+  let image = defaultImages[category] || defaultImages['edificios'];
+  if (cod) {
+    const customImg = getAssetImage(cod);
+    if (customImg) {
+      image = customImg;
+    }
+  }
 
   let formattedPrice = price;
   if (price && !price.includes('€') && price !== '0') {

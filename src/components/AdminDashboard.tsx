@@ -5,7 +5,7 @@ import {
   Search, Filter, Upload, FileText, CheckCircle, 
   Eye, EyeOff, Sparkles, RefreshCw, AlertTriangle, ChevronDown
 } from 'lucide-react';
-import { Property } from './PropertyList';
+import { Property, getPropertyImage } from './PropertyList';
 import { addProperty, updateProperty, removeProperty } from '../services/firebaseService';
 import { parseCSVToProperties, OFFICIAL_CSV_DATA } from '../lib/csvParser';
 
@@ -541,29 +541,23 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ properties, onCl
                      </div>
                   </div>
 
-                  {/* Portfolio PDF and Images Upload Sector (Real File Pickers converting to base64) */}
+                  {/* Portfolio PDF and Images Link Block */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white/5 p-6 rounded-sm border border-line">
                      <div className="space-y-3">
                         <label className="text-[10px] uppercase tracking-widest font-bold text-white flex items-center gap-2">
                            <ImageIcon size={14} className="text-brand"/>
-                           Imagen de Portada (Subir archivo o URL)
+                           Dirección de Imagen de Portada (URL)
                         </label>
                         <div className="flex flex-col gap-4">
                            <input 
-                              type="file"
-                              accept="image/*"
-                              onChange={(e) => handleFileUpload(e, 'image')}
-                              className="text-xs text-text-muted bg-card-dark border border-line px-4 py-2 font-sans w-full"
-                           />
-                           <input 
-                              className="w-full bg-card-dark border border-line px-4 py-2 text-xs text-white"
+                              className="w-full bg-card-dark border border-line px-4 py-3 text-xs text-white"
                               value={formData.image || ''}
                               onChange={e => setFormData({ ...formData, image: e.target.value })}
-                              placeholder="O pegue una dirección URL de imagen"
+                              placeholder="Pegue la dirección URL de la imagen de portada"
                            />
-                           {formData.image && (
+                           {getPropertyImage(formData as Property) && (
                               <div className="h-20 w-32 relative border border-line rounded-sm overflow-hidden bg-black/40">
-                                 <img src={formData.image} className="w-full h-full object-cover" alt="Vista previa" />
+                                 <img src={getPropertyImage(formData as Property)} className="w-full h-full object-cover" alt="Vista previa" />
                               </div>
                            )}
                         </div>
@@ -572,24 +566,18 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ properties, onCl
                      <div className="space-y-3">
                         <label className="text-[10px] uppercase tracking-widest font-bold text-white flex items-center gap-2">
                            <FileText size={14} className="text-brand" />
-                           Portfolio Dossier PDF (Subir archivo o URL)
+                           Enlace al Dossier PDF (URL)
                         </label>
                         <div className="flex flex-col gap-4">
                            <input 
-                              type="file"
-                              accept="application/pdf"
-                              onChange={(e) => handleFileUpload(e, 'pdfUrl')}
-                              className="text-xs text-text-muted bg-card-dark border border-line px-4 py-2 font-sans w-full"
-                           />
-                           <input 
-                              className="w-full bg-card-dark border border-line px-4 py-2 text-xs text-white"
+                              className="w-full bg-card-dark border border-line px-4 py-3 text-xs text-white"
                               value={formData.pdfUrl || ''}
                               onChange={e => setFormData({ ...formData, pdfUrl: e.target.value })}
-                              placeholder="O pegue una dirección URL de PDF"
+                              placeholder="Pegue el enlace público al archivo PDF (Google Drive/Dropbox etc.)"
                            />
                            {formData.pdfUrl && (
                               <div className="text-[9px] text-[#22c55e] font-mono flex items-center gap-2">
-                                 <CheckCircle size={12} /> Archivo PDF/Dossier vinculado.
+                                 <CheckCircle size={12} /> Enlace de dossier PDF configurado.
                               </div>
                            )}
                         </div>
@@ -768,7 +756,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ properties, onCl
                       >
                         {/* Image Preview */}
                         <div className="w-16 h-16 bg-card-dark rounded-sm overflow-hidden shrink-0 border border-line relative">
-                          <img src={p.image} className="w-full h-full object-cover opacity-60 group-hover:opacity-100" alt="" />
+                          <img src={getPropertyImage(p)} className="w-full h-full object-cover opacity-60 group-hover:opacity-100" alt="" />
                           {!isActive && (
                             <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                               <span className="text-[7px] text-red-500 border border-red-500/55 px-1 py-0.2 rounded font-sans uppercase font-bold tracking-widest">
@@ -849,7 +837,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ properties, onCl
                            Ningún inmueble coincide con sus criterios de búsqueda
                         </span>
                         <p className="text-text-muted text-[10px] mt-2 max-w-sm">
-                           Intente cambiar los filtros o añadir un nuevo activo manual o mediante la carga masiva del excel suministrado.
+                           Intente cambiar los filtros o añadir un nuevo activo manualmente.
                         </p>
                      </div>
                   )}
